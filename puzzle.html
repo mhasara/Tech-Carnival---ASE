@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harry Potter Puzzle</title>
+
+  <link href="https://fonts.cdnfonts.com/css/harry-p" rel="stylesheet">
+
+  <style>
+   body {
+  font-family: 'Cinzel', serif;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url('images/sss.jpg') center/cover no-repeat fixed;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  color: #f5deb3; /* parchment-golden text */
+  text-align: center;
+}
+
+h1 {
+  margin: 20px;
+  font-size: 3.5em;
+  font-family: 'Harry P', serif; /* Actual HP font */
+  color: #d65a07; /* gold */
+  text-shadow: 2px 2px 8px #000, 0 0 25px #5c3502e8;
+}
+
+#gameBoard {
+  margin: 30px auto;
+  display: grid;
+  gap: 5px;
+  border: 3px solid #874300; /* antique gold */
+  border-radius: 15px;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.7); /* dark magical background */
+  box-shadow: 0 0 20px rgba(237, 152, 79, 0.6);
+}
+
+.puzzle-piece {
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  box-shadow: inset 0 0 10px #000;
+}
+.puzzle-piece:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgb(118, 39, 0);
+}
+
+.empty-space {
+  background: rgba(255, 215, 0, 0.1);
+  border: 2px dashed #f8c388;
+}
+
+.game-controls {
+  margin: 20px;
+}
+
+.btn {
+  background: #d0710c;
+  color: #000;
+  padding: 12px 20px;
+  margin: 5px;
+  border: 2px solid #ffd700;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: bold;
+  box-shadow: 0 0 10px #000;
+}
+.btn:hover {
+  background: #ffd700;
+  color: #000;
+  box-shadow: 0 0 20px #ffd700;
+}
+
+.timer {
+  font-size: 1.5em;
+  margin: 10px;
+  color: #ffd700;
+  text-shadow: 1px 1px 5px #000;
+}
+
+.stats {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.stat-item {
+  background: rgba(0,0,0,0.7);
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #d4af37;
+  color: #ffd700;
+  font-weight: bold;
+  text-shadow: 1px 1px 4px #000;
+}
+  </style>
+</head>
+<body>
+  <h1>⚡ Harry Potter Puzzle ⚡</h1>
+
+  <div class="game-controls">
+    <span class="timer" id="timer">⏱️ 05:00</span>
+    <button class="btn" id="newGameBtn">New Game</button>
+    <button class="btn" id="solveBtn">Auto Solve</button>
+    <button class="btn" id="pauseBtn">Pause</button>
+  </div>
+
+  <div id="gameBoard"></div>
+
+  <div class="stats">
+    <div class="stat-item">
+      <h3>Moves</h3>
+      <div id="moveCount">0</div>
+    </div>
+    <div class="stat-item">
+      <h3>Best Time</h3>
+      <div id="bestTime">--:--</div>
+    </div>
+    <div class="stat-item">
+      <h3>Completed</h3>
+      <div id="completedCount">0</div>
+    </div>
+    <div class="stat-item">
+      <h3>Success Rate</h3>
+      <div id="successRate">0%</div>
+    </div>
+  </div>
+
+  <script>
+    class HarryPotterPuzzle {
+      constructor() {
+        this.boardSize = 4; // fixed 4x4
+        this.board = [];
+        this.emptyPos = { x: 3, y: 3 };
+       this.currentImage = "images/" + (localStorage.getItem("selectedImage") || "default.jpg");
+
+        this.timeLimit = 300; // 5 minutes
+        this.timeRemaining = this.timeLimit;
+        this.timerInterval = null;
+        this.moves = 0;
+        this.isPaused = false;
+        this.isGameOver = false;
+        this.gamesPlayed = parseInt(localStorage.getItem('gamesPlayed') || '0');
+        this.gamesWon = parseInt(localStorage.getItem('gamesWon') || '0');
+        this.initializeGame();
+        this.setupEvents();
+        this.loadStats();
+      }
+
+      initializeGame() {
+        this.createBoard();
+        this.shuffleBoard();
+        this.renderBoard();
+        this.startTimer();
+        this.moves = 0;
+        this.updateMoveCount();
+      }
+
+      createBoard() {
+        this.board = [];
+        for (let y = 0; y < this.boardSize; y++) {
+          this.board[y] = [];
+          for (let x = 0; x < this.boardSize; x++) {
+            if (x === 3 && y === 3) this.board[y][x] = null;
+            else this.board[y][x] = y * this.boardSize + x;
+          }
+        }
+      }
+
+      shuffleBoard() {
+        for (let i = 0; i < 300; i++) {
+          const neighbors = this.getNeighbors(this.emptyPos.x, this.emptyPos.y);
+          const random = neighbors[Math.floor(Math.random() * neighbors.length)];
+          this.swapWithEmpty(random.x, random.y);
+        }
+      }
+
+      getNeighbors(x, y) {
+        const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+        return dirs.map(([dx,dy])=>({x:x+dx,y:y+dy}))
+                   .filter(p=>p.x>=0&&p.x<4&&p.y>=0&&p.y<4);
+      }
+
+      swapWithEmpty(x,y) {
+        this.board[this.emptyPos.y][this.emptyPos.x] = this.board[y][x];
+        this.board[y][x] = null;
+        this.emptyPos = {x,y};
+      }
+
+      renderBoard() {
+        const boardEl = document.getElementById('gameBoard');
+        boardEl.innerHTML = '';
+        boardEl.style.gridTemplateColumns = `repeat(4,1fr)`;
+        boardEl.style.gridTemplateRows = `repeat(4,1fr)`;
+        const size = 400/this.boardSize;
+        boardEl.style.width = "400px";
+        boardEl.style.height = "400px";
+        for(let y=0;y<4;y++){
+          for(let x=0;x<4;x++){
+            const cell=document.createElement("div");
+            cell.className="puzzle-piece";
+            cell.style.width=size+"px";
+            cell.style.height=size+"px";
+            if(this.board[y][x]===null){
+              cell.classList.add("empty-space");
+            }else{
+              const num=this.board[y][x];
+              const sx=(num%4)*size;
+              const sy=Math.floor(num/4)*size;
+              cell.style.backgroundImage=`url(${this.currentImage})`;
+              cell.style.backgroundPosition=`-${sx}px -${sy}px`;
+              cell.style.backgroundSize=`${size*4}px ${size*4}px`;
+              cell.onclick=()=>this.movePiece(x,y);
+            }
+            boardEl.appendChild(cell);
+          }
+        }
+      }
+
+      movePiece(x,y){
+        if(this.isPaused||this.isGameOver||this.board[y][x]===null)return;
+        const canMove=this.getNeighbors(x,y)
+          .some(n=>n.x===this.emptyPos.x&&n.y===this.emptyPos.y);
+        if(canMove){
+          this.swapWithEmpty(x,y);
+          this.moves++;
+          this.updateMoveCount();
+          this.renderBoard();
+          if(this.checkWin()) this.handleWin();
+        }
+      }
+
+      checkWin(){
+        for(let y=0;y<4;y++){
+          for(let x=0;x<4;x++){
+            if(x===3&&y===3)continue;
+            if(this.board[y][x]!==y*4+x)return false;
+          }
+        }
+        return true;
+      }
+
+      handleWin(){
+        this.stopTimer();
+        this.isGameOver=true;
+        this.gamesWon++;
+        this.gamesPlayed++;
+        alert("🎉 You completed the puzzle!");
+        this.updateStats();
+      }
+
+      handleTimeUp(){
+        this.stopTimer();
+        this.isGameOver=true;
+        this.gamesPlayed++;
+        alert("⏰ Time's up! Try again.");
+        this.updateStats();
+      }
+
+      startTimer(){
+        this.timeRemaining=this.timeLimit;
+        this.updateTimer();
+        this.timerInterval=setInterval(()=>{
+          if(!this.isPaused&&!this.isGameOver){
+            this.timeRemaining--;
+            this.updateTimer();
+            if(this.timeRemaining<=0)this.handleTimeUp();
+          }
+        },1000);
+      }
+
+      stopTimer(){
+        clearInterval(this.timerInterval);
+      }
+
+      updateTimer(){
+        const mins=Math.floor(this.timeRemaining/60);
+        const secs=this.timeRemaining%60;
+        document.getElementById("timer").textContent=
+          `⏱️ ${mins.toString().padStart(2,"0")}:${secs.toString().padStart(2,"0")}`;
+      }
+
+      updateMoveCount(){
+        document.getElementById("moveCount").textContent=this.moves;
+      }
+
+      updateStats(){
+        const elapsed=this.timeLimit-this.timeRemaining;
+        const best=localStorage.getItem("bestTime")||Infinity;
+        if(this.checkWin() && elapsed<best){
+          localStorage.setItem("bestTime",elapsed);
+          document.getElementById("bestTime").textContent=this.formatTime(elapsed);
+        }
+        localStorage.setItem("gamesPlayed",this.gamesPlayed);
+        localStorage.setItem("gamesWon",this.gamesWon);
+        document.getElementById("completedCount").textContent=this.gamesWon;
+        document.getElementById("successRate").textContent=
+          Math.round((this.gamesWon/this.gamesPlayed)*100)+"%";
+      }
+
+      loadStats(){
+        const best=localStorage.getItem("bestTime");
+        if(best)document.getElementById("bestTime").textContent=this.formatTime(best);
+        document.getElementById("completedCount").textContent=this.gamesWon;
+        document.getElementById("successRate").textContent=
+          Math.round((this.gamesWon/this.gamesPlayed)*100)+"%";
+      }
+
+      formatTime(sec){
+        const m=Math.floor(sec/60);
+        const s=sec%60;
+        return `${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+      }
+
+      setupEvents(){
+        document.getElementById("newGameBtn").onclick=()=>this.resetGame();
+        document.getElementById("pauseBtn").onclick=()=>this.togglePause();
+        document.getElementById("solveBtn").onclick=()=>this.autoSolve();
+
+      }
+
+      resetGame(){
+        this.stopTimer();
+        this.isGameOver=false;
+        this.moves=0;
+        this.emptyPos={x:3,y:3};
+        this.updateMoveCount();
+        this.initializeGame();
+      }
+
+      togglePause(){
+        this.isPaused=!this.isPaused;
+        document.getElementById("pauseBtn").textContent=
+          this.isPaused?"Resume":"Pause";
+      }
+
+      autoSolve(){
+  if(this.isGameOver) return;
+  this.isPaused=false;
+
+  let moves=0;
+  const maxMoves=200;
+
+  const step=()=>{
+    if(this.checkWin()||this.isGameOver||moves>=maxMoves) return;
+
+    // Pick a random neighbor to move
+    const neighbors=this.getNeighbors(this.emptyPos.x,this.emptyPos.y);
+    const random=neighbors[Math.floor(Math.random()*neighbors.length)];
+    this.swapWithEmpty(random.x,random.y);
+    this.renderBoard();
+    moves++;
+
+    setTimeout(step,200);
+  };
+
+  step();
+}
+
+    }
+
+    let puzzle;
+    document.addEventListener("DOMContentLoaded",()=>{
+      puzzle=new HarryPotterPuzzle();
+    });
+  </script>
+</body>
+</html>
