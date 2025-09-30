@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harry Potter Quiz</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap');
+    
+    body {
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      background: linear-gradient(135deg, #1a0033 0%, #0d001a 50%, #1a0033 100%);
+      color: #f4e4c1;
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Magical stars background */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent);
+      background-size: 200% 200%;
+      animation: twinkle 8s ease-in-out infinite;
+      opacity: 0.6;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    
+    .quiz-box {
+      background: linear-gradient(145deg, rgba(26, 0, 51, 0.95), rgba(51, 0, 51, 0.95));
+      padding: 30px;
+      border-radius: 20px;
+      width: 380px;
+      box-shadow: 
+        0 0 30px rgba(218, 165, 32, 0.5),
+        0 0 60px rgba(218, 165, 32, 0.3),
+        inset 0 0 20px rgba(218, 165, 32, 0.1);
+      position: relative;
+      overflow: hidden;
+      border: 2px solid #daa520;
+      animation: glow 3s ease-in-out infinite;
+      z-index: 1;
+    }
+    
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 30px rgba(218, 165, 32, 0.5), 0 0 60px rgba(218, 165, 32, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(218, 165, 32, 0.7), 0 0 80px rgba(218, 165, 32, 0.4); }
+    }
+    
+    /* Decorative corners */
+    .quiz-box::before,
+    .quiz-box::after {
+      content: '✦';
+      position: absolute;
+      font-size: 24px;
+      color: #daa520;
+      animation: spin 10s linear infinite;
+    }
+    
+    .quiz-box::before {
+      top: 10px;
+      left: 10px;
+    }
+    
+    .quiz-box::after {
+      bottom: 10px;
+      right: 10px;
+      animation-direction: reverse;
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    h2 { 
+      margin-bottom: 15px;
+      font-family: 'MedievalSharp', serif;
+      font-size: 24px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+      color: #ffd700;
+      letter-spacing: 2px;
+    }
+    
+    .character {
+      width: 100%;
+      height: 220px;
+      border-radius: 15px;
+      border: 3px solid #daa520;
+      object-fit: cover;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s ease;
+    }
+    
+    .character:hover {
+      transform: scale(1.02);
+    }
+    
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .option-btn {
+      padding: 12px 8px;
+      border: 2px solid #8b7355;
+      border-radius: 10px;
+      cursor: pointer;
+      background: linear-gradient(145deg, #6b4423, #8b6340);
+      color: #f4e4c1;
+      font-weight: bold;
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: visible;
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    /* Floating animation with different delays */
+    .option-btn:nth-child(1) { animation-delay: 0s; }
+    .option-btn:nth-child(2) { animation-delay: 0.5s; }
+    .option-btn:nth-child(3) { animation-delay: 1s; }
+    .option-btn:nth-child(4) { animation-delay: 1.5s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    /* Magical shimmer effect */
+    .option-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+      transition: left 0.5s;
+    }
+    
+    .option-btn:hover::before {
+      left: 100%;
+    }
+    
+    /* Sparkles on hover */
+    .option-btn::after {
+      content: '✨';
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      font-size: 20px;
+      opacity: 0;
+      transition: all 0.3s ease;
+      animation: sparkleRotate 2s linear infinite;
+    }
+    
+    @keyframes sparkleRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    
+    .option-btn:hover::after {
+      opacity: 1;
+      top: -15px;
+      right: -15px;
+    }
+    
+    .option-btn:hover {
+      background: linear-gradient(145deg, #8b6340, #daa520);
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 
+        0 8px 20px rgba(218, 165, 32, 0.6),
+        0 0 30px rgba(255, 215, 0, 0.4);
+      border-color: #daa520;
+      animation: float 3s ease-in-out infinite, pulse 0.5s ease-in-out;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: translateY(-5px) scale(1.05); }
+      50% { transform: translateY(-5px) scale(1.08); }
+    }
+    
+    .option-btn:active {
+      transform: translateY(-2px) scale(1.02);
+    }
+    
+    /* Sparkle animation for correct answer */
+    @keyframes sparkleFloat {
+      0% { 
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.5) rotate(180deg);
+        opacity: 1;
+      }
+      100% { 
+        transform: scale(0.5) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Explosion animations for wrong answer */
+    @keyframes explode0 {
+      to { 
+        transform: translate(calc(-50% + 100px), calc(-50% - 100px));
+        opacity: 0;
+      }
+    }
+    
+    @keyframes explode1 {
+      to { 
+        transform: translate(calc(-50% - 100px), calc(-50% - 100px));
+        opacity: 0;
+      }
+    }
+    
+    @keyframes explode2 {
+      to { 
+        transform: translate(calc(-50% + 100px), calc(-50% + 100px));
+        opacity: 0;
+      }
+    }
+    
+    @keyframes explode3 {
+      to { 
+        transform: translate(calc(-50% - 100px), calc(-50% + 100px));
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-box">
+    <h2 id="progress">0 / 0</h2>
+    <img id="quizImage" class="character" src="" alt="Character">
+    <div class="options" id="options"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      { img: "harrypotter.png", answer: "Harry Potter", options: ["Harry Potter", "Ron Weasley", "Draco Malfoy", "Neville Longbottom"] },
+      { img: "hermione.jpg", answer: "Hermione Granger", options: ["Hermione Granger", "Ginny Weasley", "Luna Lovegood", "Cho Chang"] },
+      { img: "sortinghat.jpg", answer: "Sorting Hat", options: ["Sorting Hat", "Dobby", "Sirius Black", "Goblin Griphook"] },
+      { img: "ron.jpg", answer: "Ron Weasley", options: ["Harry Potter", "Ron Weasley", "Draco Malfoy", "Seamus Finnigan"] },
+      { img: "snape.jpg", answer: "Severus Snape", options: ["Lucius Malfoy", "Severus Snape", "Sirius Black", "Remus Lupin"] },
+      { img: "dumbledore.jpg", answer: "Albus Dumbledore", options: ["Albus Dumbledore", "Horace Slughorn", "Mad-Eye Moody", "Sirius Black"] },
+      { img: "malfoy.jpg", answer: "Draco Malfoy", options: ["Draco Malfoy", "Neville Longbottom", "Cedric Diggory", "Lucius Malfoy"] },
+      { img: "hogwarts.jpg", answer: "Hogwarts", options: ["Hogwarts", "Diagon Alley", "Hogsmeade", "Ministry of Magic"] }
+    ];
+
+    let current = 0, score = 0;
+
+    function loadQuestion() {
+      if (current >= quizData.length) {
+        document.querySelector(".quiz-box").innerHTML =
+          `<h2>Game Over! 🎉</h2><p>Your Score: ${score} / ${quizData.length}</p>`;
+        return;
+      }
+
+      const q = quizData[current];
+      const imgElement = document.getElementById("quizImage");
+
+      // Load the image
+      imgElement.src = q.img;
+
+      // Apply random cropping
+      const randX = Math.floor(Math.random() * 100);
+      const randY = Math.floor(Math.random() * 100);
+      imgElement.style.objectPosition = `${randX}% ${randY}%`;
+
+      // Update progress
+      document.getElementById("progress").innerText = `${current+1} / ${quizData.length}`;
+
+      // Load options
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.innerText = opt;
+        btn.onclick = () => checkAnswer(opt, q.answer);
+        optionsDiv.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(selected, correct) {
+      if (selected === correct) {
+        score++;
+        showCelebration();
+      } else {
+        showExplosion();
+      }
+      current++;
+      setTimeout(loadQuestion, 2000);
+    }
+
+    // Balloons when correct
+    function showCelebration() {
+      for (let i = 0; i < 15; i++) {
+        const balloon = document.createElement("div");
+        balloon.innerText = "🎈";
+        balloon.style.position = "fixed";
+        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.bottom = "0px";
+        balloon.style.fontSize = "30px";
+        balloon.style.animation = "rise 3s linear forwards";
+        document.body.appendChild(balloon);
+        setTimeout(() => balloon.remove(), 3000);
+      }
+    }
+
+    // Bomb when wrong
+    function showExplosion() {
+      const bomb = document.createElement("div");
+      bomb.innerText = "💥";
+      bomb.style.position = "fixed";
+      bomb.style.top = "50%";
+      bomb.style.left = "50%";
+      bomb.style.fontSize = "80px";
+      bomb.style.transform = "translate(-50%, -50%)";
+      document.body.appendChild(bomb);
+      setTimeout(() => bomb.remove(), 1000);
+    }
+
+    window.onload = loadQuestion;
+  </script>
+</body>
+</html>

@@ -107,7 +107,7 @@ h1 {
   <h1>⚡ Harry Potter Puzzle ⚡</h1>
 
   <div class="game-controls">
-    <span class="timer" id="timer">⏱️ 05:00</span>
+    <span class="timer" id="timer">⏱️ 07:00</span>
     <button class="btn" id="newGameBtn">New Game</button>
     <button class="btn" id="solveBtn">Auto Solve</button>
     <button class="btn" id="pauseBtn">Pause</button>
@@ -142,7 +142,7 @@ h1 {
         this.emptyPos = { x: 3, y: 3 };
        this.currentImage = "images/" + (localStorage.getItem("selectedImage") || "default.jpg");
 
-        this.timeLimit = 300; // 5 minutes
+        this.timeLimit = 420; // 5 minutes
         this.timeRemaining = this.timeLimit;
         this.timerInterval = null;
         this.moves = 0;
