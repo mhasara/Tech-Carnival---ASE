@@ -1,5 +1,3 @@
-// not finished
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,10 +8,18 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&display=swap');
 
+    @font-face {
+      font-family: 'HarryP';
+      src: url('./style/HARRYP__.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     body {
       font-family: 'Cinzel', serif;
       text-align: center;
-      background: linear-gradient(135deg, #1a0033 0%, #0d001a 50%, #1a0033 100%);
+      background: url('./images/back2.jpg') no-repeat center center;
+      background-size: cover;
       color: #f4e4c1;
       min-height: 100vh;
       margin: 0;
@@ -23,13 +29,6 @@
       position: relative;
       overflow: hidden;
     }
-
-    @font-face {
-  font-family: 'HarryP';
-  src: url('./style/HarryP.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
     body::before {
       content: '';
@@ -54,50 +53,51 @@
     }
 
     .quiz-box {
-      background: linear-gradient(145deg, rgba(26, 0, 51, 0.95), rgba(51, 0, 51, 0.95));
+      background: linear-gradient(145deg, rgba(62, 132, 193, 0.115), rgba(2, 18, 35, 0.95));
       padding: 30px;
       border-radius: 20px;
       width: 380px;
       box-shadow: 
-        0 0 30px rgba(218, 165, 32, 0.5),
-        0 0 60px rgba(218, 165, 32, 0.3),
-        inset 0 0 20px rgba(218, 165, 32, 0.1);
-      border: 2px solid #daa520;
+        0 0 30px rgba(32, 181, 218, 0.5),
+        0 0 60px rgba(120, 196, 226, 0.3),
+        inset 0 0 20px rgba(168, 206, 211, 0.1);
+      border: 2px solid #050918;
       animation: glow 3s ease-in-out infinite;
       position: relative;
       z-index: 1;
     }
 
     @keyframes glow {
-      0%, 100% { box-shadow: 0 0 30px rgba(218, 165, 32, 0.5), 0 0 60px rgba(218, 165, 32, 0.3); }
-      50% { box-shadow: 0 0 40px rgba(218, 165, 32, 0.7), 0 0 80px rgba(218, 165, 32, 0.4); }
+      0%, 100% { box-shadow: 0 0 30px rgba(32, 153, 218, 0.5), 0 0 60px rgba(32, 184, 218, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(32, 218, 212, 0.7), 0 0 80px rgba(102, 153, 188, 0.4); }
     }
 
     h2 { 
       margin-bottom: 10px;
-        font-family: 'HarryP', 'Cinzel', serif;
-      font-size: 24px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-      color: #ffd700;
+      font-family: 'HarryP', 'Cinzel', serif;
+      font-size: 28px;
+      text-shadow: 2px 2px 4px rgba(98, 152, 184, 0.8);
+      color: #0a1d23;
       letter-spacing: 2px;
     }
 
     h3 {
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       font-family: 'HarryP', 'Cinzel', serif;
-      font-size: 20px;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-      color: #f0e68c;
+      font-size: 30px;
+      font-weight: bolder;
+      text-shadow: 1px 1px 3px rgba(73, 130, 191, 0.7);
+      color: #010f1a;
     }
 
     .character {
-      width: 100%;
-      height: 220px;
+      width: 200px; height: 200px;
       border-radius: 15px;
-      border: 3px solid #daa520;
+      border: 3px solid #031122;
       object-fit: cover;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 5px 20px rgba(49, 158, 208, 0.7);
       transition: transform 0.3s ease;
+      margin: 0 auto;
     }
 
     .character:hover { transform: scale(1.02); }
@@ -111,182 +111,152 @@
 
     .option-btn {
       padding: 12px 8px;
-      border: 2px solid #8b7355;
+      border: 2px solid #040813;
       border-radius: 10px;
       cursor: pointer;
-      background: linear-gradient(145deg, #6b4423, #8b6340);
-      color: #f4e4c1;
-      font-weight: bold;
+      background: linear-gradient(145deg, #23376b, #7dafd818);
+      color: #3ef5f8;
+      font-weight: bolder;
       font-family: 'Cinzel', serif;
-      font-size: 13px;
+      font-size: 18px;
       transition: all 0.3s ease;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
       position: relative;
-      overflow: visible;
       animation: float 3s ease-in-out infinite;
     }
 
-    .option-btn:nth-child(1) { animation-delay: 0s; }
-    .option-btn:nth-child(2) { animation-delay: 0.5s; }
-    .option-btn:nth-child(3) { animation-delay: 1s; }
-    .option-btn:nth-child(4) { animation-delay: 1.5s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
-    }
-
-    .option-btn::before,
-    .option-btn::after { pointer-events: none; }
-
-    .option-btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
-      transition: left 0.5s;
-    }
-
-    .option-btn:hover::before { left: 100%; }
-
-    .option-btn::after {
-      content: '✨';
-      position: absolute;
-      top: -10px;
-      right: -10px;
-      font-size: 20px;
-      opacity: 0;
-      transition: all 0.3s ease;
-      animation: sparkleRotate 2s linear infinite;
-    }
-
-    @keyframes sparkleRotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .option-btn:hover::after {
-      opacity: 1;
-      top: -15px;
-      right: -15px;
+    @keyframes float { 
+      0%, 100% { transform: translateY(0px); } 
+      50% { transform: translateY(-8px); } 
     }
 
     .option-btn:hover {
-      background: linear-gradient(145deg, #8b6340, #daa520);
+      background: linear-gradient(145deg, #559ae9, #2023da00);
       transform: translateY(-5px) scale(1.05);
-      box-shadow: 0 8px 20px rgba(218, 165, 32, 0.6), 0 0 30px rgba(255, 215, 0, 0.4);
-      border-color: #daa520;
-      animation: float 3s ease-in-out infinite, pulse 0.5s ease-in-out;
+      box-shadow: 0 8px 20px rgba(32, 178, 218, 0.6), 0 0 30px rgba(6, 99, 130, 0.4);
+      border-color: #0a092d;
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: translateY(-5px) scale(1.05); }
-      50% { transform: translateY(-5px) scale(1.08); }
-    }
-
-    .option-btn:active { transform: translateY(-2px) scale(1.02); }
-
-    @keyframes rise {
-      0% { bottom: 0; opacity: 1; }
-      100% { bottom: 100vh; opacity: 0; }
-    }
+    @keyframes rise { 0% { bottom: 0; opacity: 1; } 100% { bottom: 100vh; opacity: 0; } }
   </style>
 </head>
 <body>
   <div class="quiz-box">
     <h2 id="progress">0 / 0</h2>
     <h3 id="quizTitle">Guess the Character</h3>
+    <h3 id="timer">Time: 5s</h3>
     <img id="quizImage" class="character" src="" alt="Character">
     <div class="options" id="options"></div>
   </div>
 
   <script>
     const quizData = [
-      { img: "./images/harrypotter.png", answer: "Harry Potter", options: ["Harry Potter", "Ron Weasley", "Draco Malfoy", "Neville Longbottom"] },
-      { img: "./images/hermione.jpg", answer: "Hermione Granger", options: ["Hermione Granger", "Ginny Weasley", "Luna Lovegood", "Cho Chang"] },
-      { img: "./images/sortinghat.jpg", answer: "Sorting Hat", options: ["Sorting Hat", "Dobby", "Sirius Black", "Goblin Griphook"] },
-      { img: "./images/ron.jpg", answer: "Ron Weasley", options: ["Harry Potter", "Ron Weasley", "Draco Malfoy", "Seamus Finnigan"] },
-      { img: "./images/snape.jpg", answer: "Severus Snape", options: ["Lucius Malfoy", "Severus Snape", "Sirius Black", "Remus Lupin"] },
-      { img: "./images/dumbledore.jpg", answer: "Albus Dumbledore", options: ["Albus Dumbledore", "Horace Slughorn", "Mad-Eye Moody", "Sirius Black"] },
-      { img: "./images/malfoy.jpg", answer: "Draco Malfoy", options: ["Draco Malfoy", "Neville Longbottom", "Cedric Diggory", "Lucius Malfoy"] },
-      { img: "./images/hogwarts.jpg", answer: "Hogwarts", options: ["Hogwarts", "Diagon Alley", "Hogsmeade", "Ministry of Magic"] }
+      { img: "./images/harry.jpg", answer: "Harry Potter", options: ["Harry Potter","Ron Weasley","Draco Malfoy","Neville Longbottom"], title: "Guess the Character" },
+      { img: "./images/voldemort.jpg", answer: "Voldemort", options: ["Lucius Malfoy","Voldemort","Sirius Black","Remus Lupin"], title: "Guess the Character" },
+      { img: "./images/ron.jpg", answer: "Ron Weasley", options: ["Harry Potter","Ron Weasley","Draco Malfoy","Seamus Finnigan"], title: "Guess the Character" },
+      { img: "./images/dumbledore.jpg", answer: "Albus Dumbledore", options: ["Albus Dumbledore","Horace Slughorn","Mad-Eye Moody","Sirius Black"], title: "Guess the Character" },
+      { img: "./images/dobby.jpg", answer: "Dobby", options: ["Sorting Hat","Dobby","Sirius Black","Goblin Griphook"], title: "Guess the Magical Creature" },
+      { img: "./images/hermine.jpg", answer: "Hermione Granger", options: ["Hermione Granger","Ginny Weasley","Luna Lovegood","Cho Chang"], title: "Guess the Character" },
+      { img: "./images/malfoy.jpg", answer: "Draco Malfoy", options: ["Draco Malfoy","Neville Longbottom","Cedric Diggory","Lucius Malfoy"], title: "Guess the Character" },
+      { img: "./images/hagrid.jpg", answer: "Hagrid", options: ["Harry Potter","Hagrid","Draco Malfoy","Seamus Finnigan"], title: "Guess the Character" },
+      { img: "./images/snape.jpg", answer: "Severus Snape", options: ["Lucius Malfoy","Severus Snape","Remus Lupin","Alastor Moody"], title: "Guess the Character" },
+      { img: "./images/luna.jpg", answer: "Luna Lovegood", options: ["Luna Lovegood","Hermione Granger","Cho Chang","Ginny Weasley"], title: "Guess the Character" },
+      { img: "./images/ginny.jpg", answer: "Ginny Weasley", options: ["Ginny Weasley","Hermione Granger","Fleur Delacour","Luna Lovegood"], title: "Guess the Character" },
+      { img: "./images/cedric.jpg", answer: "Cedric Diggory", options: ["Cedric Diggory","Viktor Krum","Neville Longbottom","Dean Thomas"], title: "Guess the Character" },
+      { img: "./images/sirius.jpg", answer: "Sirius Black", options: ["Remus Lupin","Sirius Black","James Potter","Severus Snape"], title: "Guess the Character" },
+      { img: "./images/neville.jpg", answer: "Neville Longbottom", options: ["Neville Longbottom","Harry Potter","Ron Weasley","Draco Malfoy"], title: "Guess the Character" },
+      { img: "./images/trelawney.jpg", answer: "Professor Trelawney", options: ["Professor Trelawney","Dolores Umbridge","Bellatrix Lestrange","Molly Weasley"], title: "Guess the Character" }
     ];
 
-    let current = 0, score = 0;
+    // shuffle helper
+    function shuffle(array){
+      for(let i = array.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // pick 8 random questions for this participant
+    let selectedQuestions = shuffle([...quizData]).slice(0, 8);
+
+    let current = 0, score = 0, timer, timeLeft = 5;
 
     function loadQuestion() {
-      if (current >= quizData.length) {
+      if (current >= selectedQuestions.length) {
         document.querySelector(".quiz-box").innerHTML =
-          `<h2>Game Over! 🎉</h2><p>Your Score: ${score} / ${quizData.length}</p>`;
+          `<h2>Game Over! 🎉</h2><p>Your Score: ${score} / ${selectedQuestions.length}</p>`;
         return;
       }
 
-      const q = quizData[current];
+      const q = selectedQuestions[current];
       const imgElement = document.getElementById("quizImage");
       imgElement.src = q.img;
 
-      const randX = Math.floor(Math.random() * 101);
-      const randY = Math.floor(Math.random() * 101);
-      imgElement.style.objectPosition = `${randX}% ${randY}%`;
+      document.getElementById("progress").innerText = `${current+1} / ${selectedQuestions.length}`;
+      document.getElementById("quizTitle").innerText = q.title;
 
-      document.getElementById("progress").innerText = `${current + 1} / ${quizData.length}`;
-      document.getElementById("quizTitle").innerText = "Guess the Character";
+      clearInterval(timer);
+      timeLeft = 5;
+      document.getElementById("timer").innerText = `Time: ${timeLeft}s`;
+      timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = `Time: ${timeLeft}s`;
+        if(timeLeft<=0){
+          clearInterval(timer);
+          eliminatePlayer();
+        }
+      },1000);
 
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
-      q.options.forEach(opt => {
+
+      // shuffle options
+      const shuffledOptions = shuffle([...q.options]);
+
+      shuffledOptions.forEach(opt => {
         const btn = document.createElement("button");
         btn.className = "option-btn";
         btn.innerText = opt;
-        btn.onclick = () => checkAnswer(opt, q.answer);
+        btn.onclick = () => checkAnswer(opt,q.answer);
         optionsDiv.appendChild(btn);
       });
     }
 
-    function checkAnswer(selected, correct) {
-      if (selected === correct) {
+    function checkAnswer(selected, correct){
+      clearInterval(timer);
+      if(selected === correct){
         score++;
-        showCelebration();
         current++;
-        setTimeout(loadQuestion, 1500);
-      } else {
-        showExplosion();
-        document.querySelector(".quiz-box").innerHTML =
-          `<h2>❌ Eliminated! ❌</h2><p>Your Score: ${score} / ${quizData.length}</p>`;
+        showCelebration();
+        setTimeout(loadQuestion,1500);
+      }else{
+        eliminatePlayer();
       }
     }
 
-    function showCelebration() {
-      for (let i = 0; i < 15; i++) {
+    function eliminatePlayer(){
+      document.querySelector(".quiz-box").innerHTML =
+        `<h2>❌ Eliminated! ❌</h2><p>Your Score: ${score} / ${selectedQuestions.length}</p>`;
+    }
+
+    function showCelebration(){
+      for(let i=0;i<15;i++){
         const balloon = document.createElement("div");
         balloon.innerText = "🎈";
         balloon.style.position = "fixed";
-        balloon.style.left = Math.random() * 100 + "vw";
+        balloon.style.left = Math.random()*100+"vw";
         balloon.style.bottom = "0px";
         balloon.style.fontSize = "30px";
         balloon.style.animation = "rise 3s linear forwards";
         document.body.appendChild(balloon);
-        setTimeout(() => balloon.remove(), 3000);
+        setTimeout(()=>balloon.remove(),3000);
       }
-    }
-
-    function showExplosion() {
-      const bomb = document.createElement("div");
-      bomb.innerText = "💥";
-      bomb.style.position = "fixed";
-      bomb.style.top = "50%";
-      bomb.style.left = "50%";
-      bomb.style.fontSize = "80px";
-      bomb.style.transform = "translate(-50%, -50%)";
-      document.body.appendChild(bomb);
-      setTimeout(() => bomb.remove(), 1000);
     }
 
     window.onload = loadQuestion;
   </script>
 </body>
 </html>
+ 
