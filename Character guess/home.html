@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harry Potter Quiz</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+    @font-face {
+      font-family: 'HarryP';
+      src: url('./style/HARRYP__.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: url('./images/back1.jpg') no-repeat center center/cover;
+      overflow: hidden;
+      color: #f4e4c1;
+      text-align: center;
+    }
+
+    /* Star twinkle effect */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent);
+      background-size: 200% 200%;
+      animation: twinkle 8s ease-in-out infinite;
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    h1 {
+      font-family: 'HarryP', 'Cinzel', serif;
+      font-size: 100px;
+      letter-spacing: 3px;
+      color: #010578;
+      text-shadow: 0 0 20px rgba(113, 224, 246, 0.9), 
+                   0 0 40px rgba(77, 210, 141, 0.6), 
+                   0 0 80px rgba(175, 206, 39, 0.5);
+      animation: floatTitle 4s ease-in-out infinite;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes floatTitle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .play-btn {
+      padding: 15px 40px;
+      margin-top: 40px;
+      font-size: 20px;
+      font-family: 'Cinzel', serif;
+      font-weight: bold;
+      border: 3px solid #92e2e9;
+      border-radius: 18px;
+      background: linear-gradient(145deg, #414bd8, #40568b);
+      color: #07fbe7;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 5px 15px rgba(22, 215, 225, 0.6);
+      z-index: 1;
+    }
+
+    .play-btn:hover {
+      background: linear-gradient(145deg, #7cb1d0, #7ddcf4);
+      color: #fff;
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(66, 255, 255, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <h1>🧙‍♂️ Harry Potter Quiz ⚡</h1>
+  <button class="play-btn" onclick="location.href='index.html'" >Play Now</button>
+</body>
+</html>
