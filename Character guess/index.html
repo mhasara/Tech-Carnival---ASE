@@ -138,6 +138,23 @@
       border-color: #0a092d;
     }
 
+
+    .play-again-btn {
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(45deg, #ff9800, #f44336);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.play-again-btn:hover {
+  background: linear-gradient(45deg, #f44336, #ff9800);
+  transform: scale(1.1);
+}
+
     @keyframes rise { 0% { bottom: 0; opacity: 1; } 100% { bottom: 100vh; opacity: 0; } }
   </style>
 </head>
@@ -151,6 +168,8 @@
   </div>
 
   <script>
+
+    
 const quizData = [
 
   // Example difficult/tricky ones
@@ -259,6 +278,36 @@ const quizData = [
         setTimeout(()=>balloon.remove(),3000);
       }
     }
+
+
+    function showEndScreen(type) {
+  let message = "";
+  if (type === "win") {
+    message = `<h2>🏆 YOU WIN! 🧙✨</h2>
+               <p>Perfect Score: ${score} / ${selectedQuestions.length}</p>
+               <p>🎉⚡ You are a true Hogwarts Champion! ⚡🎉</p>`;
+  } else if (type === "over") {
+    message = `<h2>Game Over! 🎉</h2>
+               <p>Your Score: ${score} / ${selectedQuestions.length}</p>`;
+  } else if (type === "eliminated") {
+    message = `<h2>❌ Eliminated!</h2>
+               <p>Your Score: ${score} / ${selectedQuestions.length}</p>`;
+  }
+
+  document.querySelector(".quiz-box").innerHTML = `
+    ${message}
+    <button onclick="restartQuiz()" class="play-again-btn">🔄 Play Again</button>
+  `;
+}
+
+function restartQuiz() {
+  score = 0;
+  current = 0;
+  selectedQuestions = shuffle([...quizData]).slice(0, 10); // or 15
+  loadQuestion();
+}
+
+
 
     window.onload = loadQuestion;
   </script>
