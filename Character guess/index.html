@@ -151,23 +151,28 @@
   </div>
 
   <script>
-    const quizData = [
-      { img: "./images/harry.jpg", answer: "Harry Potter", options: ["Harry Potter","Ron Weasley","Draco Malfoy","Neville Longbottom"], title: "Guess the Character" },
-      { img: "./images/voldemort.jpg", answer: "Voldemort", options: ["Lucius Malfoy","Voldemort","Sirius Black","Remus Lupin"], title: "Guess the Character" },
-      { img: "./images/ron.jpg", answer: "Ron Weasley", options: ["Harry Potter","Ron Weasley","Draco Malfoy","Seamus Finnigan"], title: "Guess the Character" },
-      { img: "./images/dumbledore.jpg", answer: "Albus Dumbledore", options: ["Albus Dumbledore","Horace Slughorn","Mad-Eye Moody","Sirius Black"], title: "Guess the Character" },
-      { img: "./images/dobby.jpg", answer: "Dobby", options: ["Sorting Hat","Dobby","Sirius Black","Goblin Griphook"], title: "Guess the Magical Creature" },
-      { img: "./images/hermine.jpg", answer: "Hermione Granger", options: ["Hermione Granger","Ginny Weasley","Luna Lovegood","Cho Chang"], title: "Guess the Character" },
-      { img: "./images/malfoy.jpg", answer: "Draco Malfoy", options: ["Draco Malfoy","Neville Longbottom","Cedric Diggory","Lucius Malfoy"], title: "Guess the Character" },
-      { img: "./images/hagrid.jpg", answer: "Hagrid", options: ["Harry Potter","Hagrid","Draco Malfoy","Seamus Finnigan"], title: "Guess the Character" },
-      { img: "./images/snape.jpg", answer: "Severus Snape", options: ["Lucius Malfoy","Severus Snape","Remus Lupin","Alastor Moody"], title: "Guess the Character" },
-      { img: "./images/luna.jpg", answer: "Luna Lovegood", options: ["Luna Lovegood","Hermione Granger","Cho Chang","Ginny Weasley"], title: "Guess the Character" },
-      { img: "./images/ginny.jpg", answer: "Ginny Weasley", options: ["Ginny Weasley","Hermione Granger","Fleur Delacour","Luna Lovegood"], title: "Guess the Character" },
-      { img: "./images/cedric.jpg", answer: "Cedric Diggory", options: ["Cedric Diggory","Viktor Krum","Neville Longbottom","Dean Thomas"], title: "Guess the Character" },
-      { img: "./images/sirius.jpg", answer: "Sirius Black", options: ["Remus Lupin","Sirius Black","James Potter","Severus Snape"], title: "Guess the Character" },
-      { img: "./images/neville.jpg", answer: "Neville Longbottom", options: ["Neville Longbottom","Harry Potter","Ron Weasley","Draco Malfoy"], title: "Guess the Character" },
-      { img: "./images/trelawney.jpg", answer: "Professor Trelawney", options: ["Professor Trelawney","Dolores Umbridge","Bellatrix Lestrange","Molly Weasley"], title: "Guess the Character" }
-    ];
+const quizData = [
+
+  // Example difficult/tricky ones
+
+  { img: "./images/harry.jpg", answer: "Harry Potter", options: ["Harry Potter","Neville Longbottom","James Potter","Cedric Diggory"], title: "This wizard speaks Parseltongue — who is he?" },
+  { img: "./images/ron.jpg", answer: "Ron Weasley", options: ["Ron Weasley","Fred Weasley","George Weasley","Percy Weasley"], title: "He destroyed a Horcrux using the Sword of Gryffindor. Who is he?" },
+  { img: "./images/hermione.jpg", answer: "Hermione Granger", options: ["Hermione Granger","Ginny Weasley","Luna Lovegood","Cho Chang"], title: "She altered her parents’ memories during the war. Who is she?" },
+  { img: "./images/dumbledore.jpg", answer: "Albus Dumbledore", options: ["Albus Dumbledore","Gellert Grindelwald","Horace Slughorn","Aberforth Dumbledore"], title: "This wizard defeated Grindelwald in 1945. Who is he?" },
+  { img: "./images/voldemort.jpg", answer: "Voldemort", options: ["Voldemort","Lucius Malfoy","Barty Crouch Jr","Peter Pettigrew"], title: "This dark wizard was born Tom Riddle. Who is he?" },
+  { img: "./images/snape.jpg", answer: "Severus Snape", options: ["Severus Snape","Lucius Malfoy","Remus Lupin","Alastor Moody"], title: "He was a double agent and died protecting Harry. Who is he?" },
+  { img: "./images/malfoy.jpg", answer: "Draco Malfoy", options: ["Draco Malfoy","Vincent Crabbe","Gregory Goyle","Lucius Malfoy"], title: "This student was forced to repair the Vanishing Cabinet. Who is he?" },
+  { img: "./images/hagrid.jpg", answer: "Hagrid", options: ["Hagrid","Grawp","Aberforth Dumbledore","Mad-Eye Moody"], title: "He was expelled from Hogwarts for allegedly opening the Chamber of Secrets. Who is he?" },
+  { img: "./images/dobby.jpg", answer: "Dobby", options: ["Dobby","Kreacher","Winky","Griphook"], title: "This elf gave Harry gillyweed before the Triwizard task. Who is he?" },
+  { img: "./images/hedwig.jpg", answer: "Hedwig", options: ["Hedwig","Fawkes","Errol","Pigwidgeon"], title: "She was Harry’s loyal snowy owl. What’s her name?" },
+  { img: "./images/gryffindor.jpg", answer: "Gryffindor", options: ["Gryffindor","Slytherin","Ravenclaw","Hufflepuff"], title: "This Hogwarts house values bravery and chivalry. Which house is it?" },
+  { img: "./images/mcgonagall.jpg", answer: "Minerva McGonagall", options: ["Minerva McGonagall","Dolores Umbridge","Molly Weasley","Nymphadora Tonks"], title: "She can transform into a cat Animagus. Who is she?" },
+  { img: "./images/sirius.jpg", answer: "Sirius Black", options: ["Sirius Black","Remus Lupin","James Potter","Peter Pettigrew"], title: "He escaped Azkaban after 12 years. Who is he?" },
+  { img: "./images/neville.jpg", answer: "Neville Longbottom", options: ["Neville Longbottom","Dean Thomas","Seamus Finnigan","Cedric Diggory"], title: "This student pulled the Sword of Gryffindor from the Sorting Hat in the final battle. Who is he?" },
+  { img: "./images/platform934.jpg", answer: "Platform 9¾", options: ["Platform 9¾","Platform 10","Platform 8¾","Platform 7½"], title: "Students run through a barrier at King’s Cross to reach this platform. Which one is it?" }
+];
+
+
 
     // shuffle helper
     function shuffle(array){
