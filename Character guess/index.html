@@ -172,7 +172,7 @@
     
 const quizData = [
 
-  // Example difficult/tricky ones
+ 
 
   { img: "./images/harry.jpg", answer: "Harry Potter", options: ["Harry Potter","Neville Longbottom","James Potter","Cedric Diggory"], title: "This wizard speaks Parseltongue — who is he?" },
   { img: "./images/ron.jpg", answer: "Ron Weasley", options: ["Ron Weasley","Fred Weasley","George Weasley","Percy Weasley"], title: "He destroyed a Horcrux using the Sword of Gryffindor. Who is he?" },
@@ -193,7 +193,7 @@ const quizData = [
 
 
 
-    // shuffle helper
+
     function shuffle(array){
       for(let i = array.length - 1; i > 0; i--){
         const j = Math.floor(Math.random() * (i + 1));
@@ -202,7 +202,7 @@ const quizData = [
       return array;
     }
 
-    // pick 8 random questions for this participant
+
     let selectedQuestions = shuffle([...quizData]).slice(0, 8);
 
     let current = 0, score = 0, timer, timeLeft = 5;
@@ -236,8 +236,7 @@ const quizData = [
       const optionsDiv = document.getElementById("options");
       optionsDiv.innerHTML = "";
 
-      // shuffle options
-      const shuffledOptions = shuffle([...q.options]);
+
 
       shuffledOptions.forEach(opt => {
         const btn = document.createElement("button");
